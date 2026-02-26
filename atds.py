@@ -81,8 +81,72 @@ class Deque():
     def peek_rear(self): 
         if len(self.deque) > 0: 
             return self.deque[-1]
-    
 
+class Node(): 
+    def __init__(self, data): 
+        self.data = data
+        self.next = None
+
+    def get_data(self): 
+        return self.data
+    
+    def set_data(self, new_data): 
+        self.data = new_data
+    
+    def get_next(self): 
+        return self.next
+    
+    def set_next(self, new_next):
+        self.next = new_next 
+    
+    def __repr__(self): 
+        return "Node[data=" + str(self.data) + ", next=" + str(self.next) + "]"
+
+class UnorderedList(): 
+    def __init__(self): 
+        self.head = None
+    
+    def add(self, item): 
+        new_node = Node(item)
+        new_node.set_next(self.head)
+        self.head = new_node
+    
+    def length(self): 
+        node_count = 0
+        current = self.head
+        while current != None: 
+            node_count += 1
+            current = current.get_next()
+        return node_count
+    
+    def is_empty(self): 
+        return self.head == None
+    
+    def remove(self, item): 
+        previous = None
+        current = self.head 
+        while current != None: 
+            if current.get_data() == item: 
+                if previous == None:
+                    self.head = current.get_next()
+                else: 
+                    previous.set_next(current.get_next())
+                return
+            else: 
+                previous = current
+                current = current.get_next()
+        return 
+    
+    def __repr__(self):
+        """Creates a representation of the list suitable for printing, debugging"""
+        result = "UnorderedList["
+        next_node = self.head
+        while next_node != None:
+            result += str(next_node.get_data()) + ","
+            next_node = next_node.get_next()
+        result = result + "]"
+        return result
+     
 def main(): 
     pass
 
