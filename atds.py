@@ -226,22 +226,95 @@ class UnorderedList():
 class ULStack(object): 
     def __init__(self): 
         self.stack = UnorderedList()
+
     def pop(self): 
-        return self.stack.pop()
+        return self.stack.pop(0)
+
     def push(self, item): 
-        self.stack.append(item)
+        self.stack.add(item)
+
     def peek(self): 
-        current = self.stack.pop()
-        current = self.stack.append(current)
-        return current
+        if self.stack.head == None:
+            return None
+        return self.stack.head.get_data()
+
     def size(self): 
         return self.stack.length()
+    
     def is_empty(self): 
         return self.stack.length() == 0
+
+class HashTable: 
+    def __init__(self, size): 
+        self.size = size
+        self.slots = [None] * size
+        self.data = [None] * size
     
+    def __repr__(self): 
+        result = []
+        result.append("Slots: " + str(self.slots))
+        result.append("Data: " + str(self.data))
+        return "\n".join(result)
+
+    def hash_function(self, key): 
+        return key % self.size
+    
+    def put(self, key, value): 
+        hash_value = self.hash_function(key)
+        if self.slots[hash_value] is None: 
+            self.slots[hash_value] = key
+            self.data[hash_value] = value 
+        elif self.slots[hash_value] == key: 
+            self.data[hash_value] = value
+        else: 
+            next_slot = (hash_value + 1) % self.size
+            while self.slots[next_slot] is not None and self.slots[next_slot] != key:
+                next_slot = (next_slot + 1) % self.size  
+            if self.slots[next_slot] is None: 
+                self.slots[next_slot] = key
+                self.data[next_slot] = value 
+            else: 
+                self.data[next_slot] = value
+    
+    def get(self, key): 
+        starting_pos = self.hash_function(key)
+        pos = starting_pos
+        while self.slots[pos] is not None: 
+            if self.slots[pos] == key: 
+                return self.data[pos]
+            pos = (pos + 1) % self.size
+            if pos == starting_pos: 
+                break
+        return None
+
     
 def main(): 
-    pass
+    hash = HashTable(5)
+    print(hash)
+    print()
+
+    hash.put(6, "Sam")
+    print(hash)
+    print()
+
+    hash.put(12, "Potato")
+    print(hash)
+    print()
+
+    hash.put(7, "Seaweed")
+    print(hash)
+    print()
+
+    hash.put(15, "Bean")
+    print(hash)
+    print()
+
+    hash.put(3, "Taco")
+    print(hash)
+    print()
+
+    print(hash.get(3))
+    print(hash.get(1))
 
 if __name__ == "__main__": 
     main()
