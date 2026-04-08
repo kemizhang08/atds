@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 __author__ = "Kelly Zhang"
-__version__ = "04-16-2026"
+__version__ = "03-16-2026"
 from atds import Stack
 import random 
 
@@ -19,24 +19,30 @@ def main():
     clock = 0 
     WORKDAY_MINUTES = 180 
     s = Stack()
-    current_task = 0 
-    while clock < WORKDAY_MINUTES: 
-        print("Current time is " + clock + " and current task is " + current_task)
+    current_task = None 
+    next_task = 0 
+    while clock < WORKDAY_MINUTES:
+        print("-------")
+        print("Current time is " + str(clock) + " and current task is " + str(current_task))
+        print("Items on stack are: " + str(s))
         print("[Enter] to continue...")
-        print("Items on stack are " + s)
-
-        if (random.randrange(10)) == 0: 
-            if len(tasks) == 0: 
-                s.push(tasks.pop(random.range(len(tasks))))
-        if not s:
-            print("Working on", current_task[0])
+        if next_task < len(tasks) and random.randrange(10) == 0:
+            print("New task coming in...!")
+            if current_task is not None:
+                # save what we are currently working on on the stack 
+                s.push(current_task)
+            # proceed with the incoming task 
+            current_task = tasks[next_task]
+            next_task += 1
+        if current_task is not None:
+            # work on the task for one minute 
             current_task[1] -= 1
-            if current_task[1] == 0: 
-                s.pop()
-            else: 
-                print("Still have", current_task[1, "minutes to work on this task"])
-
+            if current_task[1] == 0:
+                current_task = None
+                if not s.is_empty():
+                    # if interrupted tasks then start on most recent one 
+                    current_task = s.pop()
         clock += 1
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     main()

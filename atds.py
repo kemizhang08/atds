@@ -25,6 +25,9 @@ class Stack():
     
     def is_empty(self):
         return self.size() == 0 
+    
+    def __repr__(self):
+        return "Stack" + str(self.stack)
 
 class Queue():
     def __init__(self):
