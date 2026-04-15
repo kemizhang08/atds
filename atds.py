@@ -290,34 +290,72 @@ class HashTable:
                 break
         return None
 
+class LinearSearcher: 
+    def __init__(self, nums, goal): 
+        self.nums = nums
+        self.goal = goal 
+    def search(self):
+        for i in range(len(self.nums)):
+            if self.nums[i] == self.goal:
+                return i
+        return None
+        
+class BinarySearcher: 
+    def __init__(self): 
+        pass
+    
+    def search(self, nums, goal):
+        left = 0
+        right = len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == goal:
+                return mid
+            elif nums[mid] < goal:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return None
+
+class BinaryTree:
+    def __init__(self, key):
+        self.key = key
+        self.left_child = None
+        self.right_child = None
+
+    def get_root_val(self):
+        return self.key
+
+    def set_root_val(self, new_val):
+        self.key = new_val
+
+    def get_left_child(self):
+        return self.left_child
+
+    def get_right_child(self):
+        return self.right_child
+
+    def insert_left(self, new_left_child):
+        new_tree = BinaryTree(new_left_child)
+        if self.left_child is None:
+            self.left_child = new_tree
+        else:
+            new_tree.left_child = self.left_child
+            self.left_child = new_tree
+
+    def insert_right(self, new_right_child):
+        new_tree = BinaryTree(new_right_child)
+        if self.right_child is None:
+            self.right_child = new_tree
+        else:
+            new_tree.right_child = self.right_child
+            self.right_child = new_tree
+    
+    def __str__(self):
+        return "[" + str(self.key) + "," + str(self.left_child) + "," + str(self.right_child) + "]"
     
 def main(): 
-    hash = HashTable(5)
-    print(hash)
-    print()
-
-    hash.put(6, "Sam")
-    print(hash)
-    print()
-
-    hash.put(12, "Potato")
-    print(hash)
-    print()
-
-    hash.put(7, "Seaweed")
-    print(hash)
-    print()
-
-    hash.put(15, "Bean")
-    print(hash)
-    print()
-
-    hash.put(3, "Taco")
-    print(hash)
-    print()
-
-    print(hash.get(3))
-    print(hash.get(1))
+    pass
 
 if __name__ == "__main__": 
     main()
