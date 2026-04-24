@@ -353,9 +353,71 @@ class BinaryTree:
     
     def __str__(self):
         return "[" + str(self.key) + "," + str(self.left_child) + "," + str(self.right_child) + "]"
+
+class BinaryHeap(): 
+    def __init__(self, heap_list): 
+        self.heap_list = [0] + heap_list
+ 
+    def insert(self, value): 
+        self.heap_list.append(value)
+        self.percolate_up(len(self.heap_list) - 1)
+
+    def percolate_up(self, i): 
+        while (i // 2 > 0) and (self.heap_list[i // 2] > self.heap_list[i]): 
+            self.heap_list[i//2], self.heap_list[i] = self.heap_list[i], self.heap_list[i//2]
+            i = i // 2
+    
+    def del_min(self): 
+        if len(self.heap_list) > 1: 
+            min_val = self.heap_list[1]
+            self.heap_list[1] = self.heap_list.pop()
+            self.percolate_down(1)
+            return min_val
+        else:
+            return None
+    
+    def percolate_down(self, i): 
+        while i * 2 < len(self.heap_list): 
+            min_child_index = i * 2
+            if i * 2 + 1 < len(self.heap_list) and self.heap_list[i * 2 + 1] < self.heap_list[min_child_index]: 
+                min_child_index = i * 2 + 1
+            if self.heap_list[i] > self.heap_list[min_child_index]: 
+                self.heap_list[i], self.heap_list[min_child_index] = self.heap_list[min_child_index], self.heap_list[i]
+            i = min_child_index
+        
+    def find_min(self): 
+        return self.heap_list[1]
+
+    def is_empty(self): 
+        return len(self.heap_list) - 1 == 0
+    
+    def size(self):
+        return len(self.heap_list) - 1
+    
+    def build_heap(self, list_of_keys): 
+        bh = BinaryHeap()
+        for key in list_of_keys: 
+            bh.insert(key)
+        return bh
+
+    def __repr__(self):
+        return "BinaryHeap" + str(self.heap_list)
     
 def main(): 
-    pass
+    print("Demonstrating minHeap binary tree")
+    bh = BinaryHeap([])
+    bh.insert(5)
+    print(bh)
+    bh.insert(7)
+    bh.insert(3)
+    bh.insert(11)
+    bh.insert(1)
+    bh.insert(50)
+    bh.insert(15)
+    print(bh)
+    print(bh.find_min())
+    print(bh.del_min())
+    print(bh)
 
 if __name__ == "__main__": 
     main()
